@@ -1,0 +1,172 @@
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<canvas id="ctxcanvas" width="800" height="400" style="border:1px solid #000000;"></canvas>
+
+
+<script>
+// rot = 1, blau = -1
+var ctx = document.getElementById("ctxcanvas").getContext("2d");
+document.body.addEventListener('mousedown', doMouseDown, false);
+document.body.addEventListener('mousemove',doMouseMove,false);
+ctx.font= '50px Arial';
+window.scrollTo(0, 1);
+
+var timer1=30;
+var timer2=30;
+var timer3=45;
+
+var savetimer1=30;
+var savetimer2=30;
+var savetimer3=45;
+
+var ende=1;
+
+var snd=new Audio('time.wav');
+snd.volume=0.0;
+
+snd.load();
+snd.volume=1.0;
+
+function init(){
+	timer1=savetimer1;
+	timer2=savetimer2;
+	timer3=savetimer3;
+}
+
+function draw(){
+	ctx.clearRect(0,0,800,400);
+	ctx.fillStyle='rgba(150,150,150,1)';
+	ctx.fillRect(100,100,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText(timer1, 120,170);
+
+
+	ctx.fillStyle='rgba(0,150,0,1)';
+	ctx.fillRect(100,200,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('+', 120,270);
+
+
+	ctx.fillStyle='rgba(150,0,0,1)';
+	ctx.fillRect(100,300,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('-', 120,370);
+
+//timer 2:
+
+
+	ctx.fillStyle='rgba(150,150,150,1)';
+	ctx.fillRect(300,100,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText(timer2, 320,170);
+
+
+	ctx.fillStyle='rgba(0,150,0,1)';
+	ctx.fillRect(300,200,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('+', 320,270);
+
+
+	ctx.fillStyle='rgba(150,0,0,1)';
+	ctx.fillRect(300,300,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('-', 320,370);
+
+//timer 3:
+
+	ctx.fillStyle='rgba(150,150,150,1)';
+	ctx.fillRect(500,100,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText(timer3, 520,170);
+
+
+	ctx.fillStyle='rgba(0,150,0,1)';
+	ctx.fillRect(500,200,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('+', 520,270);
+
+
+	ctx.fillStyle='rgba(150,0,0,1)';
+	ctx.fillRect(500,300,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('-', 520,370);
+
+	ctx.fillStyle='rgba(150,150,0,1)';
+	ctx.fillRect(700,300,100,100);
+	ctx.fillStyle= 'red';
+	ctx.fillText('GO', 720,370);
+
+}
+
+
+
+function doMouseDown(event){
+	e1=event.pageX;
+	e2=event.pageY;
+	if ((e1>100) && (e1<200) && (e2>200) && (e2<300)) timer1+=5;
+	if ((e1>100) && (e1<200) && (e2>300) && (e2<400)) timer1-=5;
+
+	if ((e1>300) && (e1<400) && (e2>200) && (e2<300)) timer2+=5;
+	if ((e1>300) && (e1<400) && (e2>300) && (e2<400)) timer2-=5;
+
+	if ((e1>500) && (e1<600) && (e2>200) && (e2<300)) timer3+=5;
+	if ((e1>500) && (e1<600) && (e2>300) && (e2<400)) timer3-=5;
+
+	if ((e1>700) && (e1<800) && (e2>300) && (e2<400)) {
+		savetimer1=timer1;
+		savetimer2=timer2;
+		savetimer3=timer3;
+		snd.play();
+		ende=0;
+	}
+	draw();
+
+		}
+
+function calc(){
+	if (ende==0){
+	if (timer1>0) {
+		timer1-=1;
+		if (timer1==0) snd.play();
+	}
+	else {
+		if (timer2>0) {
+			timer2-=1;
+			if (timer2==0) snd.play();
+		}
+		else {
+			if (timer3>0) {
+				timer3-=1;
+				if (timer3==0) {
+					snd.play();
+					ende=1;
+					init();
+				}
+			}
+		}
+	}
+	}
+	draw();
+}
+
+
+
+setInterval(calc,1000);
+
+
+
+function doMouseMove(event){
+}
+
+draw();
+
+
+
+
+
+</script>
+</body>
+</html>
